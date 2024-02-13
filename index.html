@@ -1,0 +1,1331 @@
+<html>
+<head>
+   <style>
+     .content-container{
+           border-left: 200px solid white;
+           border-right: 200px solid white;
+           padding: 10px;
+           text-align: center;
+           text-align: justify;
+           font-size: 20px;
+}
+       .content-container p{
+           text-align: left;
+           text-align: justify;
+           font-size: 20px;
+           
+}
+       
+       table, td, th {
+  border: 2px solid;
+  text-align: center;
+font-family:sans-serif;
+}
+       table{
+           width: 100%;
+  border-collapse: collapse;
+       }
+    table,tr:first-child,td {
+    border-top: none;
+  }
+       table,tr:last-child,td {
+    border-bottom: none;
+  }
+
+    
+</style>  
+</head>
+<body>
+    <div class="content-container">
+    <h3 style="text-align: center; font-size: 27px;">Chapter VI</h3><br>
+     <h1 style="text-align: center; font-size: 50px;">Data Mining Based on<br>
+Rough Sets</h1><br><br>
+    <p style="text-align: center; font-size: 23px;">Jerzy W. Grzymala-Busse
+University of Kansas, USA<br>
+Wojciech Ziarko
+University of Regina, Canada</p><br>
+<h2 style="text-align: center; font-size: 28px;">ABSTRACT</h2>
+<p style="margin-top: -20px;"><i>The chapter is focused on the data mining aspect of the applications of rough set theory.
+Consequently, the theoretical part is minimized to emphasize the practical application
+side of the rough set approach in the context of data analysis and model-building
+applications. Initially, the original rough set approach is presented and illustrated
+with detailed examples showing how data can be analyzed with this approach. The next
+section illustrates the Variable Precision Rough Set Model (VPRSM) to expose
+similarities and differences between these two approaches. Then, the data mining
+system LERS, based on a different generalization of the original rough set theory than
+VPRSM, is presented. Brief descriptions of algorithms are also cited. Finally, some
+applications of the LERS data mining system are listed.</i></p><br>
+<h2 style="text-align: center; font-size: 28px;">INTRODUCTION</h2>
+<dd style="font-size: 20px; margin-top: -20px;">Discovering useful models capturing regularities of natural phenomena or complex systems was, until recently, almost entirely</dd> <p style="margin-top: -3px;">limited to finding formulas fitting empirical
+data. This worked relatively well in physics, theoretical mechanics, and other classical
+and fundamental areas of Science and Engineering. However, in social sciences, market
+research, medical area, pharmacy, molecular biology, learning and perception in biology,
+and in many other areas, the complexities of the natural processes and their common lack
+of analytical “smoothness” almost totally exclude the possibility of using standard
+mathematical tools for the purpose of data-based modeling. To serve the modeling needs
+of all these areas, a fundamentally different approach is needed. The availability of fast
+data processors creates new possibilities in that respect. To take advantage of the
+possibilities, new mathematical theories oriented towards creating and manipulating
+empirical functions and relations need to be developed. In fact, this need for alternative
+approaches to modeling from data was recognized some time ago by researchers working
+in the areas of neural nets, inductive learning, rough sets, and, more recently, in the area
+of data mining. The models, in the form of data-based structures of decision tables or
+rules, play a similar role to formulas in classical analytical modeling. Such theories can
+be analyzed, interpreted, and optimized using the methods of rough set theory.</p>
+<dd style="font-size: 20px;"> In this chapter, we are assuming that the reader is familiar with basic concepts of set theory and probability theory</dd>
+<h2 style="font-size: 23px;">General Overview of Rough Set Theory</h2>
+<dd style="font-size: 20px; margin-top: -20px;">neral Overview of Rough Set Theory
+The theory of rough sets (RST) was originated by Pawlak in 1982 as a formal and</dd><p style="margin-top: -3px;">mathematical theory, modeling knowledge about the domain of interest in terms of a
+collection of equivalence relations (Pawlak, 1982). Its main application area is in
+acquisition, analysis, and optimization of computer-processible models from data. The
+models can represent functional, partial functional, and probabilistic relations existing
+in data in the extended rough set approaches (Katzberg & Ziarko, 1996; Ziarko, 1993,
+1999). The main advantage of rough set theory is that it does not need any preliminary
+or additional information about data (like probability in probability theory, grade of
+membership in fuzzy set theory, etc.) (Grzymala-Busse, 1988).</p>
+<i style="font-size: 23px;">The Original Rough Set Model</i>
+<dd style="font-size: 20px;">The original rough set model is concerned with investigating the properties and the limitations of knowledge with respect to being</dd><p style="margin-top: -3px;">able to form discriminative descriptions
+of subsets of the domain. The model is also used to investigate and prove numerous
+useful algebraic and logical properties of the knowledge and approximately defined sets,
+called rough sets. The inclusion of the approximately defined sets in the rough set model
+is a consequence of the knowledge imperfections in practical situations. In general, only
+an approximate description of a set can be formed. The approximate description consists
+of definitions of lower approximation and upper approximation. The approximations are
+definable sets, that is, having a discriminative description. The upper approximation is
+the smallest definable set containing the target set. The lower approximation is the largest
+definable set included in the target set. This ability to create approximations of non-definable, or rough, sets allows for development of approximate classification algorithms
+for prediction, machine learning, pattern recognition, data mining, etc. In these algo-rithms, the problem of classifying an observation into an indefinable category, which is
+not tractable in the sense that the discriminating description of the category does not
+exist, is replaced by the problem of classifying the observation into a definable approxi-mation of the category that is tractable. If the approximations are “tight” enough, then
+the likelihood of an error of decisionmaking or prediction based on such an approximate
+classifier is minimal.</p><br>
+<i style="font-size: 23px;">Variable Precision Rough Set Model (VPRSM)</i>
+<dd style="font-size: 20px;">The original rough set theory has been applied with success to a number of
+classification-related problems in control, medicine,</dd> <p style="margin-top: -3px;">learning, data mining, etc.
+(see, for example, Polkowski & Skowron, 1998). However, developing practical applications also revealed the limitations of this approach. The most serious one was related
+to the observation that often, when dealing with empirical data such as market survey
+data, it was not possible to identify non-empty lower approximation of the target
+category, for example, of the category of buyers of a service or product. Similarly, it was
+often not possible to identify non-trivial upper approximation of the target category,
+which do not extend over the whole domain. These limitations are the natural consequence of the fact that the classification problems are often inherently non-deterministic.
+This means that the available information does not permit for error-free, deterministic
+classification, even on a subset of the domain. For example, one can never 100% correctly
+predict the buying behavior of a customer based on typical market survey results</p>
+<dd style="font-size: 20px;">Consequently, the desire to make rough set model applicable to larger class of
+practical problems leads to the development of a</dd> <p style="margin-top: -3px;">model of rough sets referred
+to as variable precision rough set model (VPRSM) (Ziarko, 1993). As in the original rough
+set model, set approximations are also formed in VPRSM. However, the criteria for
+forming the lower and upper approximations are relaxed, in particular allowing a controlled degree of misclassification in the lower approximation. The resulting lower
+approximation represents an area of the domain where the correct classification can be
+made with the desired probability of success, rather than deterministically. In this way,
+the VPRSM approach can handle large class of problems that require developing nondeterministic predictive models from data. VPRSM preserves all basic properties and
+algorithms of the original rough sets. In particular, the basic algorithms for decision table
+analysis, optimization, and decision rules acquisition are directly inherited by VPRSM
+from the original rough set model (Pawlak, 1991). In VPRSM, they are additionally
+enhanced with the frequency distribution or probabilistic information acquired from data
+(Katzberg & Ziarko, 1996; Ziarko, 1999). As a result, the classifier systems developed
+within the framework of VPRSM have probabilistic confidence factors associated with
+them to reflect the degree of uncertainty in classificatory decisionmaking. The main goal
+of such classifiers is to improve the probability of success rather than hopelessly trying
+to guarantee 100% correct classification.</p><br>
+<i style="font-size: 23px;">Decision Tables Acquired From Data</i>
+<dd>When deriving predictive models from data within rough set framework, one of the primary constructs is a decision table</dd> <p style="margin-top: -3px;">The decision table represents
+knowledge about the domain of interest and the relation between the knowledge and the
+prediction target. Some columns of the table correspond to descriptive attributes used
+to classify objects of the domain of interest; other columns represent prediction targets.
+The rows of the table represent the classes of the classification of the domain in terms
+of the descriptive attributes. If the decision table contains representatives of all or almost
+all classes of the domain, and if the relation with the prediction targets is completely or
+almost completely specified, then the table can be treated as a model of the domain. Such
+a model represents descriptions of all or almost all objects of the domain and their
+relationship to the prediction target.</p>
+<dd>The specification of the relationship may include empirical assessments of conditional probabilities, if the VPRSM approach</dd><p style="margin-top: -3px;">is used in model derivation. The model is
+called a probabilistic decision table. If the model is complete enough, and if the estimates
+of conditional probabilities are relatively close to real values, then the decision table can
+be used as a basis of approximate classifier system. To ensure relative completeness and
+generality of the decision table model, the values of the attributes used to construct the
+classification of the domain need to be sufficiently general. For example, in many practical
+problems, rather than using precise numeric measurements, value ranges are often used
+after preliminary discretization of original precise values (Nguyen, 1998). This conversion of original data values into secondary, less precise representation is one of the major
+pre-processing steps in rough set-based methodology of decision table acquisition from
+data. Once the decision table has been acquired, it can be further analyzed and optimized
+using classical algorithms for inter-attribute dependency computation and minimal nonredundant subset of attributes (attribute reduct) identification (Pawlak, 1991)</p>
+<i style="font-size: 23px;">Rule Generation Based on a Generalization of the Rough Set Theory (LERS)</i>
+<dd>The data mining system, Learning from Examples using Rough Sets (LERS), was
+developed at the University of Kansas. The first</dd> <p style="margin-top: -3px;">of LERS was done in
+Franz Lisp in 1988. The current version of LERS, implemented in C++, is a family of data
+mining systems. The LERS system is universal—it may compute rules from any kind of
+data. Computed rule sets may be used for classification of new cases or for interpretation
+of knowledge. One potential application of rule sets is rule-based expert systems.
+<dd>The LERS system may compute rules from imperfect data (Grzymala-Busse, 1988,
+1991, 1992), e.g., data with missing attribute</dd>inconsistent cases. LERS is also
+equipped with a set of discretization schemes to deal with numerical attributes. Similarly,
+a variety of LERS methods may help to handle missing attribute values. But, most
+importantly, LERS accepts inconsistent input data. Two cases are inconsistent when
+they are characterized by the same values of all attributes, but they belong to two different
+concepts. LERS handles inconsistencies using rough set theory. For inconsistent data,
+LERS computes lower and upper approximations of all concepts. The ideas of lower
+and upper approximations are fundamental for rough set theory. LERS uses a different
+generalization of the original rough set theory than VPRSM. Rules formed by LERS are
+equipped with numbers characterizing rule quality (uncertainty). Also, LERS is assisted
+with tools for rule validation: leaving-one-out, ten-fold cross validation, and hold-out.
+<dd>LERS has proven its applicability, having been used for two years by NASA
+Johnson Space Center (Automation and Robotics</dd>as a tool to develop expert
+systems of the type most likely to be used in medical decisionmaking on board the
+International Space Station. LERS was also used to enhance facility compliance under
+Sections 311, 312, and 313 of Title III of the Emergency Planning and Community Right
+to Know (Grzymala-Busse, 1993). That project was funded by the U. S. Environmental
+Protection Agency. The LERS system was used in other areas as well, e.g., in the medical
+field to compare the effects of warming devices for postoperative patients, to assess
+preterm birth (Woolery & Grzymala-Busse, 1994), and for diagnosis of melanoma
+(Grzymala-Busse, Grzymala-Busse, & Hippe, 2001).</p><br>
+<i style="font-size: 23px;">LERS Classification System</i>
+<dd>For classification of unseen cases, the LERS system uses a “bucket brigade
+algorithm” (Booker, Goldberg, & Holland, 1990;</dd> <p style="margin-top: -3px;">Holland, Holyoak, & Nisbett, 1986),
+extended to use partial matching of rules and cases. The decision to which class a case
+belongs is made on the basis of two parameters: strength and support. They are defined
+as follows: Strength is the total number of cases correctly classified by the rule during
+training. The second parameter, support, is defined as the sum of scores of all matching
+rules from the class. As follows from experiments, partial matching is a valuable
+mechanism when complete matching fails (Grzymala-Busse, 1994). In the LERS classification system, the user may use 16 strategies for classification. However, as a result
+of experiments, again, it can be shown that the most successful strategy is based on
+strength, support, and partial matching while ignoring specificity (number of conditions
+in a rule) (Grzymala-Busse & Zou, 1998)</p>
+<dd>LERS equips rules with numbers characterizing quality of rules. Thus, like VPRSM, LERS goes beyond the original rough set</dd> <p style="margin-top: -3px;">The generalizations of the original
+rough set theory represented by VPRSM and LERS are different. The prime concern of
+VPRSM is forming decision tables, while LERS was designed to form rule sets. However,
+all numbers related with rules and defined on the basis of VPRSM may be computed from
+numbers allocated by LERS to each rule. On the other hand, the LERS classification
+system uses ideas that are foreign to VPRSM, such as specificity, support, and partial
+matching. Thus, the two generalizations are independent and neither can be reduced to the other</p><br>
+<h2 style="font-size: 23px;">Related Work</h2>
+<dd style="margin-top: -20px;">The basics of the theory are summarized in Pawlak’s book (Pawlak, 1991). He also introduced novel theories of rough functions</dd> <p style="margin-top: -3px;">rough relations, which directly apply
+to the creation of approximate functional and relational models from data (Pawlak, 1996).
+Since the introduction of the original RST, several extensions of the original model were
+proposed (Greco, Matarazzo, Slowinski, & Stephanowski, 2000; Ziarko, 1993). In
+particular, VPRSM was first published in Ziarko (1993) and was further investigated by
+Beynon (2000), Kryszkiewicz (1994), and others, and served as a basis of a new approach
+to inductive logic programming (Mahesvari, Siromoney, Mehata, & Inoue, 2001) . The
+initial notion of a data-acquired decision table, also called an information system, is
+credited to Pawlak (1991). The probabilistic decision tables were introduced by Ziarko
+(1998b). The LERS system was first described in Grzymala-Busse, 1992). Its most
+important algorithm, LEM2, was also presented in Chan and Grzymala-Busse(1994).
+Initial versions of LERS were presented by Budihardjo, Grzymala-Busse , and Woolery
+(1991), and Grzymala-Busse (1997, 1998)
+<dd>There exists an extensive body of literature on rough set theory applications to knowledge discovery and data mining.</dd> A comprehensive review of the state art is
+available in Polkowski and Skowron (1998). A number of sources reported experiments
+with using rough set theory for pattern recognition, including speech recognition,
+handwriting recognition, and music fragment classification (Kostek, 1998; Plonka &
+Mrozek, 1995; Zhao, 1993). The rough set theory was first applied to trainable control
+by Mrozek (1986) when modeling control behavior of cement mill operators. Important
+applications of LERS were published in Freeman, Grzymala-Busse , Riffel, and Schroeder
+(2001) , Grzymala-Busse et al. (2001), Grzymala-Busse and Gunn (1995), Grzymala-Busse
+and Woolery (1994), Gunn and Grzymala-Busse (1994), Loupe, Freeman, Grzymala-Busse,
+and Schroeder (2001), Moradi, Grzymala-Busse, and Roberts (1995), and Woolery,
+Grzymala-Busse, Summers, and Budihardjio(1991). Some other rough set theory-based
+control applications are reported in Peters, Skowron and Suraj (1999).</p><br>
+<h2 style="text-align: center; font-size: 28px;">ROUGH SET THEORY</h2>
+<dd style="margin-top: -20px;">Rough set theory was created as a tool to handle inconsistent data. This section presents the fundamentals of the original</dd> rough set theory. The complete description
+of the theory may be found in Pawlak (1991) (see also Grzymala-Busse, 1995).<br>
+<h2 style="font-size: 23px;">Global Coverings</h2>
+<dd style="margin-top: -20px;">We are assuming that the input data set is in a form of a table. Rows of the table are called cases (or examples). Columns are</dd> labeled by attributes and a decision. An
+example of such a table is presented in Table 1.
+<dd>Table 1 depicts a simplified data base showing eight homeowners (cases) applying to a bank for a loan to buy a car.</dd> Any such table defines an information function ρ that
+maps the set of all ordered pairs (case, attribute) into the set of attribute values. For
+example, ρ (c1, Home) is <i>equal to expensive.</i><br><br>
+<!-----------------------------Table 1----------------------------------147-->
+<table>
+    <tr>
+        <td></td>
+        <td>Attributes</td>
+        <td>Decision</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Home</td>
+        <td>Boat</td>
+        <td>Credit_Card</td>
+        <td>Age</td>
+        <td>Loan_Application</td>
+    </tr>
+    <tr>
+        <td>c1</td>
+        <td>expensive</td>
+        <td>no</td>
+        <td>yes</td>
+        <td>old</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>c2</td>
+        <td>middle</td>
+        <td>yes</td>
+        <td>no</td>
+        <td>old</td>
+        <td>rejected</td>
+    </tr>
+    <tr>
+        <td>c3</td>
+        <td>expensive</td>
+        <td>yes</td>
+        <td>no</td>
+        <td>old</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>c4</td>
+        <td>cheap</td>
+        <td>yes</td>
+        <td>yes</td>
+        <td>young</td>
+        <td>rejected</td>
+    </tr>
+    <tr>
+        <td>c5</td>
+        <td>middle</td>
+        <td>yes</td>
+        <td>yes</td>
+        <td>middle</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>c6</td>
+        <td>middle</td>
+        <td>no</td>
+        <td>no</td>
+        <td>old</td>
+        <td>rejected</td>
+    </tr>
+    <tr>
+        <td>c7</td>
+        <td>middle</td>
+        <td>no</td>
+        <td>yes</td>
+        <td>young</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>c8</td>
+        <td>expensive</td>
+        <td>no</td>
+        <td>no</td>
+        <td>young</td>
+        <td>rejected</td>
+    </tr>
+</table>
+<br>
+<dd>One of the fundamental ideas of rough set theory is the relation of the set of all cases implied by a subset P of the set A of all</dd> called an indiscernibility relation, and
+denoted by IND(P). For any two cases c and c', the relation indiscernibility is defined as follows:<br><br>
+<dd style="font-size: 22px;">(c, c') ∈ IND(P) if and only if ρ (c, a) = ρ (c', a) for all a ∈ P</dd><br>
+<dd>Obviously, IND(P) is an equivalence relation, so it may be represented by the
+partition on U induced by IND(P). This partition will be denoted by U/IND(P). Two cases c and c' belong to the same set of the</dd> partition U/IND(P) if and only if (c, c') ∈ IND(P). For example,<br><br>
+<dd style="font-size: 22px;">U/IND({Home}) = {{c1, c3, c8}, {c2, c5, c6, c7}, {c4}}</dd><br>
+<p>and</p><br>
+<dd style="font-size: 22px;">U/IND({Home, Boat}) = {{c1, c8}, {c2, c5}, {c3}, {c4}, {c6, c7}}</dd><br>
+<dd>Sets belonging to the partition U/IND(P) are called P-elementary sets or blocks. Elements c1 and c3 belong to the same </dd>{Home}-elementary set (or block) of U/ND({Home})
+because the value of variable Home is the same for both c1 and c3.
+<dd>In a special case where set P contains only one variable, the decision, usually
+denoted by d, the corresponding sets that constitute</dd> U/IND(P) are called concepts. In
+Table 1, we distinguish two concepts: {c1, c3, c5, c7}, and {c2, c4, c6, c8}. The former
+concept consists of all accepted applicants, the latter concept consists of all rejected
+<dd>The basic problem is how to determine a subset P of the set A describes all concepts. In different words, our problem is </dd>whether a subset P of A is sufficient to distinguish all
+concepts. For example, the single attribute {Home} is not sufficient, since Home has the
+same value expensive for c1 and c8, yet c1 and c2 belong to two different concepts.
+Moreover, a subset {Home, Boat} is not sufficient either, since both have the same
+values for c1 and c8 (expensive, no), and c1 and c2, as observed before, belong to two
+different concepts. On the other hand, the set of all attributes: {Home, Boat, Credit_Card,
+Age} is sufficient, since values of all four attributes are unique for corresponding
+concepts. The value vector (expensive, no, yes, old) of attribute vector (Home, Boat,
+Credit_Card, Age) characterize only one case, c1, that belongs to the concept approved
+loan applications. We say that {d} depends on the subset P = {Home, Boat, Credit_Card,
+Age}. The necessary and sufficient condition for {d} to depend on P is<br><br>
+<dd style="font-size: 22px;">U/IND(P) ≤ U/IND({d})</dd><br>
+<dd>The sign “≤” in the above expression concerns partitions. For partitions π and τ on U, π ≤ τ if and only if for each block</dd> B of π there exists a block B' of τ such that B
+⊆ B'. In other words, {d} depends on P if and only if every concept defined by {d} is
+the union of some P-elementary sets (or blocks of U/IND(P)).
+In our example<br><br>
+<dd style="font-size: 22px;">U/IND({Loan_Application}) = {{c1, c3, c5, c7}, {c2, c4, c6, c8}},<br>
+U/IND({Home, Age}) = {{c1, c3}, {c2, c6}, {c4}, {c5}, {c7}, {c8}},</dd><br>
+So<br>
+<dd style="font-size: 22px;">U/IND({Home, Age} ≤ U/IND({Loan_Application}</dd><br>
+<dd>or, {Loan_Application depends on {Home, Age}. It is not difficult to check that U/ IND({Home, Age} ≤ U/IND({Loan_Application}:</dd> every block of U/IND({Home, Age})
+is a subset of corresponding block from U/IND({Loan_Application}).
+The minimal subset P such that {d} depends on P is called a global covering of {d}.
+The global covering is also called relative reduct (Pawlak, 1991). In the example in Table
+1, there exist precisely two global coverings of Loan_Application: {Home, Age} and
+{Home, Credit_Card, Boat}. Algorithms for finding the set of all global coverings was
+published in Grzymala-Busse (1991)<br>
+<h2 style="font-size: 23px;">Algorithm for Finding the Set of All Global Coverings</h2>
+<dd>The aim of the algorithm is to find the set C of all global coverings of {d}. The cardinality of the set X is denoted |X|.</dd> Let k be a positive integer. The set of all subsets
+of the same cardinality k of the set A is denoted Pk
+, i.e., Pk
+ = {{xi1, xi2,..., xik} | xi1, xi2,...,
+xik ∈ A}.<br><br>
+<dd><b>Algorithm</b> Find_the_set_of_all_global_coverings;<br>
+<b>begin</b><br><br>
+C := Ø;<br>
+<b>for</b> each attribute x in A <b>do</b><br>
+<dd>compute partition U/IND({x});</dd>
+compute partition U/IND({d});
+k := 1;<br>
+<dd><b>while</b>k ≤ |A| do</dd>
+<dd><b>begin</b></dd>
+<dd><b>for</b></dd> each set P in Pk do
+if (P is not a superset of any member of C) and
+(Π U/IND({x}) ≤ U/IND({d})) x∈P<br>
+<b>then</b> add P to C;<br>
+k := k+1
+<b>end</b> {while}<br>
+<b>end</b>{procedure}.<br>
+<dd>Time complexity of the algorithm for finding the set of all coverings of R in S is
+exponential</dd>
+<h2 style="font-size: 22px;">Local Coverings</h2>
+<dd style="margin-top: -20px;">In the definition of global covering, all involved attributes and decision are
+considered globally, i.e., for all cases.</dd> Here we will introduce a local covering, defined
+by variable-value pairs. Let x be a variable (an attribute or a decision), and let v be a value
+of x. The block of a variable-value pair (x, v), denoted [(x, v)], is the set of all elements
+of the universe U that for variable x have value v. Thus, the concept is a block of [(d, w)]
+for some value w of decision d. For example, in Table 1, the block of (Home, expensive)
+is {c1, c3, c8}.
+<dd>Let B be a subset of the universe U. Let T be a non-empty set of attribute-value pairs, where all involved attributes </dd>are different. The block of T, denoted [T], is defined as<br><br>
+<dd style="font-size: 22px;">∩ [(x, v)]</dd><br>
+<dd>Let B be the set {c1, c3, c5, c7}, that is, B is the block of (<i>Loan_Application,</i> approved}. In the example</dd> from Table 1, let X be the set {(Home, expensive), (Boat, no)}.
+The block [X] of X is equal to
+<dd>[(<i>Home, expensive</i>)] ∩ [(Boat, no)] = {c1, c3, c8} ∩ {c1, c6, c7, c8} =
+{c1, c8} ⊄ {c1, c3, c5, c7} = B</dd><br>
+<dd>Thus B = {c1, c3, c5, c7} does not depend on X. On the other hand, for Y equal to <i>{(Home, expensive), (Age, Old)},</i> the block [Y] of Y is equal to</dd>
+<dd>[(Home, expensive)] ∩ [(Age, Old] = {c1, c3, c8} ∩ {c1, c2, c3, c6} =
+{c1, c3} ⊆ {c1, c3, c5, c7} = B</dd><br>
+<p>so B = {c1, c3, c5, c7} depends on {(Home, expensive), (Age, Old)}</p>
+<dd>We say that B depends on a set T of attribute-value pairs if and only if [T] ⊆ B. Set T is a minimal complex of B if and</dd> only if B depends on T and no proper subset T' of T exists such that B depends on T'
+<dd>The set Y = {(Home, expensive), (Age, Old)} is a minimal complex of B = {c1, c3, c5, c7}, since B does not depend on</dd> any subset of Y, because,<br>
+<i>[(Home, expensive)] ⊄ B</i><br><br>
+and<br><br>
+<i>[(Age, Old)] ⊄ B.</i>  <br>
+<dd>However, there exist more minimal complexes of B. For example, Z = {<i>(Home,
+Middle),</i> (Credit_Card, yes)} is another minimal complex of B, because</dd><br>
+<dd>[Y] = [{(Home, Middle), (Credit_Card, yes)}] =<br>
+[(Home, Middle)] ∩ [(Credit_Card, yes)] = {c2, c5, c6, c7} ∩ {c1, c4, c5, c7} =<br>
+{c5, c7} ⊆ B,<br>
+[{(Home, Middle)] ⊄ B, and [(Credit_Card, yes)}] ⊄ B</dd><br>
+<dd>Let T be a non-empty family of non-empty sets of attribute-value pairs. Set T is called a local covering of B if and only</dd> if the following three conditions are satisfied
+(1) each member T of T is a minimal complex of B,
+(2) ∪[T] = B, and T ∈ T
+(3) T is minimal, i.e., no subset of T exists that satisfies conditions (1) and (2).
+For the example in Table 1, the set {Y, Z}, where Y = {(Home, expensive), (Age, Old)}
+and Z = {(Home, Middle), (Credit_Card, yes)} is a local covering of B = {c1, c3, c5, c7}.
+The local covering is also called value reduct (Pawlak, 1991)<br>
+<h2 style="font-size: 22px;">Lower and Upper Approximations of a Set</h2>
+<dd style="margin-top: -20px;">Real-life data are frequently inconsistent, i.e., data that contain conflicting cases. Two cases are conflicting when they are</dd> characterized by the same values of all attributes,
+but they belong to two different concepts. For example, Table 2 presents inconsistent
+data. Cases c8 and c9 are conflicting.
+<dd>Let [x]P denote the p-elementary set of U/IND(P). Any finite union of elementary sets of P is called a definable</dd> set by P. Let B be a concept. For inconsistent data, in
+general, B is not a definable set in P. However, set B may be approximated by two definable
+sets in P; the first one is called a lower approximation of B in P, denoted by PB and defined
+as follow<br><br>
+<dd style="font-size: 22px;">{x ∈ U | [x]P ⊆ B }</dd><br>
+<!---------------------------Table2----------------------------------151-->
+<table>
+    <tr>
+        <td></td>
+        <td>Attributes</td>
+        <td>Decision</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Home</td>
+        <td>Boat</td>
+        <td>Credit_Card</td>
+        <td>Age</td>
+        <td>Loan_Application</td>
+    </tr>
+    <tr>
+        <td>c1</td>
+        <td>expensive</td>
+        <td>no</td>
+        <td>yes</td>
+        <td>old</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>c2</td>
+        <td>middle</td>
+        <td>yes</td>
+        <td>no</td>
+        <td>old</td>
+        <td>rejected</td>
+    </tr>
+    <tr>
+        <td>c3</td>
+        <td>expensive</td>
+        <td>yes</td>
+        <td>no</td>
+        <td>old</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>c4</td>
+        <td>cheap</td>
+        <td>yes</td>
+        <td>yes</td>
+        <td>young</td>
+        <td>rejected</td>
+    </tr>
+    <tr>
+        <td>c5</td>
+        <td>middle</td>
+        <td>yes</td>
+        <td>yes</td>
+        <td>middle</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>c6</td>
+        <td>middle</td>
+        <td>no</td>
+        <td>no</td>
+        <td>old</td>
+        <td>rejected</td>
+    </tr>
+    <tr>
+        <td>c7</td>
+        <td>middle</td>
+        <td>no</td>
+        <td>yes</td>
+        <td>young</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>c8</td>
+        <td>expensive</td>
+        <td>no</td>
+        <td>no</td>
+        <td>young</td>
+        <td>rejected</td>
+    </tr>
+</table>
+<br>
+<dd>The second set is called an upper approximation of B in P, denoted by 
+_
+P B and</dd>
+defined as follows<br><br>
+<dd>{x ∈ U | [x]P ∩ B ≠ Ø }.</dd><br>
+<dd>The lower approximation of B in P is the greatest definable set by P, contained in B. The upper approximation of B is the least</dd> definable set by P containing B. A rough
+set of B in P is the family of all subsets of U having the same lower and the same upper
+approximations of B in P.<br>
+For Table 2<br><br>
+<dd>U/IND({Loan_Application} = {{c1, c3, c5, c7, c9}, {c2, c4, c6, c8}}</dd><br>
+<dd>the lower approximation of B = {c1, c3, c5, c7, c9} in A= {Home, Boat, Credit_Card, Age} is the set {{c1, c3, c5, c7},</dd> the upper approximation of B = {c1, c3, c5, c7, c9} in A is the
+set {c1, c3, c5, c7, c8, c9}, and the rough set of B in A is the set {{B}}
+For inconsistent data, lower and upper approximations of a set may be used for
+defining two different kinds of set membership: certain and possible. Say that the
+concept B is not definable by the subset P of the set A of all attributes. An element x ∈
+U is said to be certainly in B if and only if x ∈ P_ B. An element x ∈ U is said to be possibly
+in B if and only if x ∈
+_
+P B. Both definitions have straightforward interpretation. We have
+to decide whether x is or is not in B on the basis of accessible information, i.e., attributes
+from P. This means that we may describe the membership of x in terms of members of U/
+IND(P). On the other hand, both sets, P_ B and PB are constructed from U/IND(P).
+Moreover<br><br>
+<dd>_ B ⊆ B ⊆
+_
+P B,</dd><br>
+<p>so if x ∈ P_ B then x is certainly in B. However, if x ∈ 
+_
+P B, then x does not need to
+be in B. If B is not definable, <br>
+_
+P B – B ≠ Ø, and x may be a member of 
+_
+P B – B and not a
+member of B. Thus x is only possibly in B.
+<dd>In our example, for B = {c1, c3, c5, c7, c9} and A = {Home, Boat, Credit_Card, Age}, c1 ∈ A_ B, so c1 ∈ B.</dd> However, c8 ∈<br>
+_
+A B and c8 ∉ B.
+A few numbers characterizing a degree of uncertainty may be associated with a
+rough set. These numbers, sometimes useful for evaluation, have limited value, because
+the most important tool of rough set theory are sets—lower and upper approximations
+of a given concept B, a subset of the universe U.
+There are two universal measures of uncertainty for rough sets, introduced in
+Grzymala-Busse (1987) (see also Grzymala-Busse, 1991). We will assume that P is a subset
+of the set A of all attributes. The first measure is called a quality of lower approximation
+of B in P, denoted γB, and equal to</p><br>
+<dd>|PB_ |
+|U| . 
+</dd><br>
+<dd>In Pawlak (1984), γB was called simply quality of approximation of B in P. The quality of lower approximation of B in P is the ratio</dd> of the number of all certainly classified
+elements of U by attributes from P as being in B to the number of elements of U. It is a
+kind of relative frequency. There exists a nice interpretation of γBin terms of evidence
+theory, also called Dempster-Shafer theory (see Shafer, 1976). With this interpretation,
+γBbecomes a belief function, as it was observed for the first time in Grzymala-Busse
+(1987).
+<dd>The second measure of uncertainty for rough sets, a quality of upper approximation of B in P,</dd> denoted γB, is equal<br><br>
+<dd>|
+_
+PB|
+|U|
+ . </dd><br>
+<dd>The quality of upper approximation of B in P is the ratio of the number of all possibly classified elements of U by attribute</dd> from P as being in B to the number of elements of
+U. Like the quality of lower approximation, the quality of upper approximation is also a
+kind of relative frequency. It is a plausibility function of evidence theory (GrzymalaBusse, 1987).<br><br>
+<h2 style="text-align: center; font-size: 28px;">VARIABLE PRECISION ROUGH SET MODEL<br> (VPRSM)</h2>
+<dd style="margin-top: -20px;">One of the primary difficulties experienced when applying the rough set approach to practical problems is the lack</dd> of consistency in data. In other words, it is quite common
+that a given combination of observations is associated with two or more different
+outcomes. For example, a set of symptoms observed in a patient may be linked to two
+or more diseases. There exists a large body of medical knowledge on which medical
+professionals base their assessment of the likelihood of correct diagnoses in such
+uncertain situations. However, it is rare to be able to make conclusive diagnosis without
+any uncertainty. In terms of rough set-based data analysis, it means that the relation
+between symptoms and diseases is grossly non-deterministic, resulting in all or almost
+all rough boundary representation of the diseases
+<dd>In such representation, only upper approximation-based or possible rules could be computed from data. The possible rules</dd> a number of possible outcomes with
+a combination of observations without providing any hints regarding the probability of
+each outcome. This is not sufficient in many practical situations where the differentiation
+must be made between less likely versus more likely outcomes. To deal with this problem,
+the possibility of using the variable precision extension of the rough set approach was
+introduced Ziarko (1993). VPRSM includes the frequency distribution information in its
+basic definitions of rough set approximations, thus making the model applicable to a large
+class of “inconsistent” or non-deterministic data analysis problems.<br>
+<h2 style="font-size: 22px;">Classification Table</h2>
+<dd style="margin-top: -20px;">As in the original rough set model, VPRSM is based on the prior knowledge of
+indiscernibility relation IND(C),</dd> as defined previously. The indiscernibility relation
+represents pre-existing knowledge about the universe of interest. It is expressed in terms
+of identity of values of the set C of all attributes. The C-elementary sets or just
+elementary sets for simplicity, of the classification so defined are the basic building
+blocks from which the definable sets are constructed. They are also used to build lower
+and upper approximations of any arbitrary subset X of the universe, as described
+previously. In VPRSM, each C-elementary set E is additionally associated with two
+measures:<br>
+1. The probability P(E) of the elementary set, which is normally estimated based on
+available data by<br><br>
+<dd>P(E) = |E|
+|U|
+ . </dd><br>
+<p>2. The conditional probability P(X|E), which represents the likelihood of such an event
+that an object belonging to the C-elementary set E would also belong to the set X.
+The conditional probability P(X|E) is typically estimated by calculating the relative
+degree of overlap between sets X and E, based on available data, that is
+P(X|E) = |X ∩ E|.</p>
+<dd> For example, Table 3 illustrates the classification of a domain U in terms of the attributes Home, Boat, Credit, Age,</dd> along with the specification of the conditional probabilities with respect to a subset X, which is defined here as collection of low income
+earners. The decision Income specifies the target set X characterized by Income = low.
+The set X is specified by providing the estimate of the conditional probability P(X|Ei
+) for
+each elementary set Ei
+, (i = 1, 2,..., 8).
+<dd>In the above example, the classification represented in the table might have been obtained from the analysis of millions</dd> of data records drawn from very large domain. To<br><br>
+<!------------------------------------Table 3------------------154--------->
+<table>
+    <tr>
+        <td>Elementary Sets</td>
+        <td>Attribute Set C</td>
+        <td>Conditional probability</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Sets</td>
+        <td>Home</td>
+        <td>Boat</td>
+        <td>Credit</td>
+        <td>Age</td>
+        <td>p(Incom e = low |Ei)</td>
+        <td> P(Ei)</td>
+    </tr>
+    <tr>
+        <td>E1</td>
+        <td>Expensive</td>
+        <td>no</td>
+        <td>yes</td>
+        <td>old</td>
+        <td>0.10</td>
+        <td>0.15</td>
+    </tr>
+    <tr>
+        <td>E2</td>
+        <td>middle</td>
+        <td>yes</td>
+        <td>no</td>
+        <td>old</td>
+        <td>0.85</td>
+        <td>0.05</td>
+    </tr>
+    <tr>
+        <td>E3</td>
+        <td>expensive</td>
+        <td>yes</td>
+        <td>no</td>
+        <td>old</td>
+        <td>0.01</td>
+        <td>0.09</td>
+    </tr>
+    <tr>
+        <td>E4</td>
+        <td>cheap</td>
+        <td>yes</td>
+        <td>yes</td>
+        <td>young</td>
+        <td>1.00</td>
+        <td>0.001</td>
+    </tr>
+    <tr>
+        <td>E5</td>
+        <td>middle</td>
+        <td>yes</td>
+        <td>yes</td>
+        <td>middle</td>
+        <td>0.82</td>
+        <td>0.24</td>
+    </tr>
+    <tr>
+        <td>E6</td>
+        <td>middle</td>
+        <td>no</td>
+        <td>no</td>
+        <td>middle</td>
+        <td>0.82</td>
+        <td>0.05</td>
+    </tr>
+    <tr>
+        <td>E7</td>
+        <td>middle</td>
+        <td>no</td>
+        <td>yes</td>
+        <td>young</td>
+        <td>0.92</td>
+        <td>0.15</td>
+    </tr>
+    <tr>
+        <td>E8</td>
+        <td>expensive</td>
+        <td>no</td>
+        <td>no</td>
+        <td>young</td>
+        <td>0.91</td>
+        <td>0.85</td>
+    </tr>
+</table>
+<br>
+<p>conduct rough set-based analysis of such a domain in the framework of VPRSM, it is
+essential to:<br>
+1. Identify all feasible combinations of attributes occurring in the domain, that is, to
+know identifying descriptions of all elementary sets appearing in the domain;<br>
+2. Compute close estimate of the probability P(E) for each elementary set E,; and<br>
+3. Compute close estimates of conditional probabilities P(X|Ei
+) associated with
+elementary sets Ei for the given target set X</p>
+<dd>The table summarizing all this information is referred to as a classification table. It should be noted that, in the likely absencethat assumption</dd>
+ of all feasible combinations of attributes
+occurring in the domain in the classification table, all conclusions derived from the table
+will only apply to a sub-domain of the domain. This sub-domain equals the union of all
+known elementary sets. For example, the results of the analysis of the information
+contained in Table 3 apply exclusively to the sub-domain U8 = ∪ {Ei
+ : i = 1, 2,..., 8} of the
+whole domain (universe) U. In what follows, for the sake of simplicity, we will assume
+that the descriptions and the associated probability distributions are known for all
+elementary sets of the domain U. The reader should be aware, however, that in practice<br><br>
+<h2 style="font-size: 22px;">Approximation Regions</h2>
+<dd style="margin-top: -20px;">The information contained in the classification table can be used to construct
+generalized, rough approximations of the subset X ⊆ U.</dd> Similar to the original rough set
+model definitions, the approximations are defined in terms of unions of some elementary
+sets. The defining criteria are expressed here in terms of conditional probabilities rather
+than in terms of relations of set inclusion and overlap. Two criteria parameters are used.
+The first parameter referred to as the lower limit l represents the highest acceptable
+degree of the conditional probability P(X|Ei
+) to include the elementary set Ei
+ in the
+negative region of the set X. In other words, the l-negative region of the set X, NEGl (X) is defined as<br><br>
+<dd>NEGl
+(X) = ∪ {Ei
+ : P(X|Ei
+) ≤ l}.</dd><br>
+<dd>The l-negative region of the set X is a collection of objects which, based on the available information, cannot be classified</dd> as included in the set with the probability
+higher than l. Alternatively, the l-negative region is a collection of objects about which
+it can be said— with certainty greater or equal to STET— that they do not belong to the.
+<dd>The positive region of the set X is defined using upper limit parameter u as the criterion. The upper limit reflects the least</dd> acceptable degree of the conditional
+probability P(X|Ei
+) to include the elementary set Ei
+ in the positive region, or u-lower
+approximation of the set X. In other words, the u-positive region of the set X, POSu(X)
+is defined as<br><br>
+<dd>POSu
+(X) = ∪ {Ei
+ : P(X|Ei
+) ≥ u}.
+</dd><br><br>
+<!--------------------------------Table 4----------------------156--------->
+<table>
+    <tr>
+        <td>Elementary Sets</td>
+        <td>Attribute Set C</td>
+        <td>Rough Region</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Sets</td>
+        <td>Home</td>
+        <td>Boat</td>
+        <td>Credit</td>
+        <td>Age</td>
+        <td>for income = low</td>
+        <td> P(Ei)</td>
+    </tr>
+    <tr>
+        <td>E1</td>
+        <td>expensive</td>
+        <td>no</td>
+        <td>yes</td>
+        <td>old</td>
+        <td>NEG</td>
+        <td>0.15</td>
+    </tr>
+    <tr>
+        <td>E2</td>
+        <td>middle</td>
+        <td>yes</td>
+        <td>no</td>
+        <td>old</td>
+        <td>POS</td>
+        <td>0.05</td>
+    </tr>
+    <tr>
+        <td>E3</td>
+        <td>expensive</td>
+        <td>yes</td>
+        <td>no</td>
+        <td>old</td>
+        <td>NEG</td>
+        <td>0.09</td>
+    </tr>
+    <tr>
+        <td>E4</td>
+        <td>cheap</td>
+        <td>yes</td>
+        <td>yes</td>
+        <td>young</td>
+        <td>POS</td>
+        <td>0.001</td>
+    </tr>
+    <tr>
+        <td>E5</td>
+        <td>middle</td>
+        <td>yes</td>
+        <td>yes</td>
+        <td>middle</td>
+        <td>POS</td>
+        <td>0.24</td>
+    </tr>
+    <tr>
+        <td>E6</td>
+        <td>middle</td>
+        <td>no</td>
+        <td>no</td>
+        <td>middle</td>
+        <td>BND</td>
+        <td>0.05</td>
+    </tr>
+    <tr>
+        <td>E7</td>
+        <td>middle</td>
+        <td>no</td>
+        <td>yes</td>
+        <td>young</td>
+        <td>POS</td>
+        <td>0.15</td>
+    </tr>
+    <tr>
+        <td>E8</td>
+        <td>expensive</td>
+        <td>no</td>
+        <td>no</td>
+        <td>young</td>
+        <td>POS</td>
+        <td>0.85</td>
+    </tr>
+</table>
+<br>
+<dd>The u-positive region of the set X is a collection of objects which, based on the available information, can be classified as</dd> included in the set with the probability not less
+than u. Alternatively, the u-positive region is a collection of objects about which it can
+be said—with certainty greater or equal to u— that they do belong to the set X
+<dd>When defining the approximations, it is assumed that 0 ≤ l  ≤ 1. Intuitively, l
+specifies those objects in the universe U that</dd> are unlikely to belong to the set X, whereas
+u specifies objects that are likely to belong to the set X . The parameters l and u associate
+concrete meaning with these verbal subjective notions of probability
+<dd>The objects that are not classified as being in the u-positive region nor in the lnegative region belong to the </dd>(l, u)-boundary region of the set X, denoted as BNRl,u
+(X)=
+∪ {Ei : l  P(X|Ei
+)  u. This is the specification of objects about which it is known that
+they are not sufficiently likely to belong to set X and also not sufficiently unlikely to not
+belong to the set X. In other words, the boundary area objects cannot be classified with
+sufficient certainty, as both members of the set X and members of the complement of the
+set X, the set ¬X
+<dd>In Table 4, referred to as a probabilistic decision table, each elementary set Ei is assigned a unique designation of its rough</dd> region with respect to set X of low-income
+individuals by using l = 0.1 and u = 0.8 as the criteria. This table is derived from the
+previous classification presented in Table 3.
+<dd>ious classification presented in Table 3.
+After assigning respective rough region to each </dd>elementary set, the resulting
+decision table becomes fully deterministic with respect to the new decision Rough
+Region. Consequently, the techniques of the original model of rough sets, as described
+in previous sections, can be applied from now on to conduct analysis of the decision
+table. In particular, they can be used to analyze dependency between attributes, to
+eliminate redundant attributes, and to compute optimized rules by eliminating some
+redundant values of the attributes.<br>
+<h2 style="font-size: 22px;">Analysis of Probabilistic Decision Tables</h2>
+<dd style="margin-top: -20px;">The analysis of the probabilistic decision tables involves inter-attribute dependency analysis, identification and</dd> elimination of redundant attributes, and attribute
+significance analysis (Ziarko, 1999)<br><br>
+<i style="font-size: 22px;">Attribute Dependency Analysis</i>
+<dd>The original rough sets model-based analysis involves detection of functional, or partial functional dependencies, and</dd> subsequent dependency-preserving reduction of
+attributes. In VPRSM, (l, u)-probabilistic dependency is a subject of analysis. The (l,
+u)-probabilistic dependency is a generalization of partial-functional dependency.<br>
+The (l, u)-probabilistic dependency γl,u
+(C, d, v) between attributes C and the
+decision d specifying the target set X of objects with the value v of the attribute d is
+defined as the total probability of (l, u)-positive and (l, u)-negative approximation regions
+of the set X. In other words<br><br>
+<dd>γl,u
+(C, d, v) = P(POSu
+(X) ∪ NEGl
+(X))</dd><br>
+<dd>The dependency degree can be interpreted as a measure of the probability that a
+randomly occurring object will be represented </dd>by such a combination of attribute values
+that the prediction of the corresponding value of the decision, or of its complement, could
+be done with the acceptable confidence. That is, the prediction that the object is a member
+of set X could be made with probability not less than u, and the prediction that the object
+is not the member of X could be made with probability not less than 1 – l. The lower and
+upper limits define acceptable probability bounds for predicting whether an object is or
+is not the member of the target set X. If (l, u)-dependency is less than one, it means that
+the information contained in the table is not sufficient to make either positiveor negative
+prediction in some cases.
+<dd>For example, the (0.1, 0.8)-dependency between C = <i>{Home, Boat, Credit, Age}</i> and Income = low is 0.95. It means that</dd> in 95% of new cases, we will be able to make the
+determination with confidence of at least 0.8 that an object is member of the set X or of
+its complement U – X. In cases when the complement is decided, the decision confidence
+would be at least 0.9<br><br>
+<i style="font-size: 22px;">Reduction of Attributes</i>
+<dd>One of the important aspects in the analysis of decision tables extracted from data is the elimination of redundant</dd> attributes and identification of the most important
+attributes. By redundant attributes, we mean any attributes that could be eliminated
+without negatively affecting the dependency degree between remaining attributes and
+the decision. The minimum subset of attributes preserving the dependency degree is
+termed reduct. In the context of VPRSM, the original notion of reduct is generalized to
+accommodate the (l, u)-probabilistic dependency among attributes. The generalized (l,
+u)-reduct of attributes, REDl,u
+(C, d, v) ⊆ C is defined as follows:<br>
+1. γl,u(REDl,u
+(C, d, v), d, v) ≥ γl,u(C, d, v);<br>
+2. For every attribute a belonging to the reduct REDl,u
+(C, d, v) the following relation
+holds: γl,u(REDl,u<br>
+(C, d, v), d, v) > γl,u(REDl,u
+(C, d, v) – {a}, d, v)
+<dd>The first condition imposes the dependency preservation requirement according
+to which the dependency between target set X</dd> and the reduct attributes should not be
+less than the dependency between the target set C of all attributes.
+The second condition imposes the minimum size requirement according to which
+no attribute can be eliminated from the reduct without reducing the degree of depen-dency.
+<dd>For example, one (l, u)-reduct of attributes in Table 4 is {Home, Boat, Credit}. The decision table reduced to these</dd> three attributes will have the same predictive accuracy
+as the original Table 4. In general , a number of possible reducts can be computed, leading
+to alternative minimal representations of the relationship between attributes and the decision.<br><br>
+<i style="font-size: 22px;">Analysis of Significance of Condition Attributes</i>
+<dd>Determination of the most important factors in a relationship between groups of
+attributes is one of the objectives of factor</dd> analysis in statistics. The factor analysis is
+based on strong assumptions regarding the form of probability distributions, and
+therefore is not applicable to many practical problems. The theory of rough sets has
+introduced a set of techniques that help in identifying the most important attributes
+without any additional assumptions. These techniques are based on the concepts of
+attribute significance factor and of a core set of attributes. The significance factor of
+an attribute a is defined as the relative decrease of dependency between attributes and
+the decision caused by the elimination of the attribute a. The core set of attributes is the
+intersection of all reducts; that is, it is the set of attributes that would never be eliminated
+in the process of reduct computation. Both of these definitions cannot be applied if the
+nature of the practical problem excludes the presence of functional or partial functional
+dependencies. However, as with other basic notions of rough set theory, they can be
+generalized in the context of VPRSM to make them applicable to non-deterministic data
+analysis problems. In what follows, the generalized notions of attribute significance
+factor and core are defined and illustrated with examples.
+<dd>The (l, u)-significance, SIGl,u (a) of an attribute a belonging to a reduct of the collection of attributes C can be</dd>
+collection of attributes C can be obtained by calculating the relative degree of depen-dency decrease caused by the elimination of the attribute a from the reduct:<br><br>
+<dd style="font-size: 22px;">SIGl,u(a) = γl,u(REDl,u(C, d, v), d, v) – γl,u(REDl,u(C, d, v) – {a}, d, v)
+γl,u(REDl,u(C, d, v), {a,} v) </dd><br>
+<dd>For instance, the (0.1, 0.8)-dependency between reduct {Home, Boat, Credit} and
+Income = low is 0.95. It can be verified that</dd> elimination of the attribute Credit the
+dependency decreases to 0.4. Consequently, the (0.1, 0.8)-significance of the attribute
+Credit in the reduct {Home, Boat, Credit} is<br><br>
+<dd>0.95 – 0.4
+0.95 </dd><br>
+<p>Similarly, the (0.1, 0.8)-significance can be computed for other reduct attributes</p>
+<dd>The set of the most important attributes, that is, those that would be included in every reduct, is called core set of attributes</dd> (Pawlak, 1982). In VPRSM, the generalized
+notion of (l, u)-core has been introduced. It is defined exactly the same way as in the
+original rough set model, except that the definition requires that the (l, u)-core set of
+attributes be included in every (l, u)-reduct. It can be proven that the core set of attributes
+COREl,u
+(C, d, v), the intersection of all CLOSE UP THIS SPACE (l, u)-reducts, satisfies
+the following property:<br><br>
+<dd>COREl,u
+(C, d, v) = {a ∈ C : γl,u
+(C, d, v) – γl,u
+(C – {a}, d, v) > 0 }.</dd><br>
+<dd>The above property leads to a simple method for calculating the core attributes. To test whether an attribute</dd> belongs to core, the method involves temporarily eliminating
+the attribute from the set of attributes and checking if dependency decreased. If
+dependency did not decrease, the attribute is not in the core; otherwise, it is one of the
+core attributes.
+<dd>For example, it can be verified by using the above testing procedure that the core attributes of the decision table given in</dd> Table 4 are Home and Boat. These attributes will
+be included in all (0.1, 0.8)-reducts of the Table 4, which means that they are essential
+for preservation of the prediction accuracy.<br><br>
+<i style="font-size: 22px;">Identification of Minimal Rules</i>
+<dd>During the course of rough set-related research, considerable effort was put into development of algorithms for</dd> computing minimal rules from decision tables. From a data
+mining perspective, the rules reflect persistent data patterns representing potentially
+interesting relations existing between data items. Initially, the focus of the rule
+acquisition algorithms was on identification of deterministic rules, that is, rules with
+unique conclusion, and possibilistic rules, that is, rules with an alternative of possible
+conclusions. More recently, computation of uncertain rules with associated probabilistic certainty factors became of interest, mostly inspired by practical problems existing in
+the area of data mining where deterministic data relations are rare. In particular, VPRSM
+is directly applicable to computation of uncertain rules with probabilistic confidence
+factors. The computation of uncertain rules in VPRSM is essentially using standard
+rough-set methodology and algorithms involving computation of global coverings, local
+coverings, or decision matrices (Ziarko & Shan, 1996). The major difference is in the
+earlier steps of bringing the set of data to the probabilistic decision table form, as
+described earlier in this chapter. The probabilistic decision table provides an input to
+the rule computation algorithm. It also provides necessary probabilistic information to
+associate conditional probability estimates and rule probability estimates with the
+computed rules.
+<dd>For example, based on the probabilistic decision table given in Table 4, one can identify the deterministic rules by using</dd> standard rough-set techniques (see Figure 1).
+Based on the probabilistic information contained in Table 4, one can associate
+probabilities and conditional probabilities with the rules. Also, the rough region
+designations can be translated to reflect the real meaning of the decision, in this case
+Income = low. The resulting uncertain rules are presented in Figure 2.<br><br>
+<img src="WhatsApp%20Image%202024-02-13%20at%202.31.11%20PM.jpeg"><br>
+<dd>All of the above rules have their conditional probabilities within the acceptability limits, as expressed by</dd> the parameters l = 0.1 and u = 0.8. The rules for the boundary area
+are not shown here since they do not meet the acceptability criteria.
+Some algorithms for rule acquisition within the framework of VPRSM have been
+implemented in the commercial system DataLogic and in the system KDD-R (Ziarko,
+1998b). A comprehensive new system incorporating the newest developments in the
+rough set area is currently being implemented.<br><br>
+<h2 style="text-align: center; font-size: 28px;">DATA MINING SYSTEM LERS</h2>
+<dd style="margin-top: -20px;">The rule induction system, called Learning from Examples using Rough Sets (LERS), was developed at the University</dd> of Kansas. The first implementation of LERS was done
+in Franz Lisp in 1988.
+anz Lisp in 1988.
+<dd>The current version of LERS, implemented in C and C++, contains a variety of  Discretization is an art rather</dd> datamining tools. LERS is equipped with the set of discretization algorithms to deal with
+numerical attributes. Discretization is an art rather than a science, so many methods
+should be tried for a specific data set. Similarly, a variety of methods may help to handle
+missing attribute values. On the other hand, LERS has a unique way to work with
+inconsistent data, following rough set theory. If a data set is inconsistent, LERS will
+always compute lower and upper approximations for every concept, and then will
+compute certain and possible rules, respectively
+<dd>The user of the LERS system may use four main methods of rule induction: two
+    methods of machine learning from examples </dd>(called LEM1 and LEM2; LEM stands for
+Learning from Examples Module) and two methods of knowledge acquisition (called All
+<br><br>< a a a a d >
+<!-------------------------Table5 ---------------------------------------- -->
+<table id ="myid">
+    <tr>
+        <td>Home</td>
+        <td>Boat</td>
+        <td>Credit</td>
+        <td>Age</td>
+        <td>Loan_Application</td>
+    </tr>
+    <tr>
+        <td>expensive</td>
+        <td>no</td>
+        <td>yes</td>
+        <td>old</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>middle</td>
+        <td>yes</td>
+        <td>no</td>
+        <td>old</td>
+        <td>rejected</td>
+    </tr>
+    <tr>
+        <td>expensive</td>
+        <td>yes</td>
+        <td>no</td>
+        <td>old</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>cheap</td>
+        <td>yes</td>
+        <td>yes</td>
+        <td>young</td>
+        <td>rejected</td>
+    </tr>
+    <tr>
+        <td>middle</td>
+        <td>yes</td>
+        <td>yes</td>
+        <td>middle</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>middle</td>
+        <td>no</td>
+        <td>no</td>
+        <td>middle</td>
+        <td>rejected</td>
+    </tr>
+    <tr>
+        <td>middle</td>
+        <td>no</td>
+        <td>yes</td>
+        <td>young</td>
+        <td>approved</td>
+    </tr>
+    <tr>
+        <td>expensive</td>
+        <td>no</td>
+        <td>no</td>
+        <td>young</td>
+        <td>rejected</td>
+    </tr>
+</table>
+<br>
+<p>Global Coverings and All Rules). Two of these methods are global (LEM1 and All Global
+Coverings); the remaining two are local (LEM2 and All Rules)</p>
+<dd>Input data file is presented to LERS in the form illustrated in Table 5. In this table, the first line (any</dd> line does not need to be one physical line—it may contain a few physical
+lines) contains declaration of variables: a stands for an attribute, d for decision, x means
+“ignore this variable.” The list of these symbols starts with  and ends with “. The
+second line contains declaration of the names of all variables, attributes, and decisions,
+surrounded by brackets. The following lines contain values of all variables.<br><br>
+<h2 style="font-size: 22px;">LEM1—Single Global Covering</h2>
+<dd style="margin-top: -20px;">In this option, LERS may or may not take into account priorities associated with attributes and provided</dd> by the user. For example, in a medical domain, some tests
+(attributes) may be dangerous for a patient. Also, some tests may be very expensive,
+while—at the same time—the same decision may be made using less expensive tests.
+LERS computes a single global covering using the following algorithm:<br><br>
+<p><b>Algorithm</b> SINGLE LOCAL COVERING<br>
+<b>Input:</b> A decision table with a set A of all attributes and concept B;<br>
+<b>Output:</b>A single local covering T of concept B;<br>
+<b>begin</b><br>
+<dd>G := B;<br>
+T := Ø;<br>
+<b>while</b> G ‘“ Ø</dd>
+<dd><b>begin</b><br>
+T := Ø;<br>
+T(G) := {(a, v) | a ∈ A, v is a value of a, [(a, v)] ∩ G ≠ Ø};<br>
+while T = Ø or [T] ⊄ B</dd>
+<dd><b>begin</b></dd>
+<dd>select a pair (a, v) ∈ T(G) with the highest attribute priority, if a
+tie occurs, select a pair (a, v) ∈ T(G) such that |[(a, v)] ∩ G| is
+maximum; if another tie occurs, select a pair (a, v) ∈ T(G) with
+the smallest cardinality of [(a, v)]; if a further tie occurs, select
+first pair;<br>
+T := T ∪ {(a, v)};<br>
+G := [(a, v)] ∩ G;<br>
+T(G) := {(a, v) | [(a, v)] ∩ G ≠ Ø};<br>
+T(G) := T(G) – T;</dd>
+<dd><b>end</b> {while}</dd>
+<p><b>for</b> each (a, v) in T do<br>
+<b>if</b>[T – {(a, v)}] ⊆ B then T := T – {(a, v)};<br>
+T := T ∪ {T};<br>
+G := B – ∪ [T]; T ∈ T<br>
+<b>end</b> {while};<br>
+<b>for</b> each T in T do<br>
+<b>if</b> ∪ [S] = B then T := T – {T}; S ∈ T – {T}<br>
+<b>end</b> {algorithm}.</p>
+<dd>Like the LEM1 option, the above algorithm is heuristic. The choice of used criteria was found as a result of many</dd> experiments (Grzymala-Busse & Werbrouck, 1998). Rules
+are eventually computed directly from the local covering, no further simplification (as in
+LEM1) is required. For Table 1, LEM2 computed the rule set presented in Figure 5.<br><br>
+<h2 style="font-size: 22px;">All Global Coverings</h2>
+<dd style="margin-top: -20px;">The All Global Coverings option of LERS represents a knowledge acquisition
+approach to rule induction. LERS attempts</dd> to compute all global coverings, and then all
+minimal rules are computed by dropping conditions. The following algorithm is used:<br><br>
+<img src="WhatsApp%20Image%202024-02-13%20at%202.31.11%20PM.jpeg"><br>
+<p><b>Algorithm</b> ALL GLOBAL COVERINGS<br>
+<b>Input:</b> A decision table with set A of all attributes and decision d;<br>
+<b>Output:</b>the set R of all global coverings of {d};<br>
+<b>begin</b><br>
+<dd>R := Ø;</dd><br>
+<dd><b>for</b> each attribute a in A do<br>
+<dd>compute partition U/IND({a});<br>
+k := 1;<br>
+<b>while</b> k ≤ |A| <b>do</b><br></dd>
+<b>begin</b><br>
+<dd><b>for</b> each subset P of the set A with |P| = k do<br>
+<dd><b>if</b> (P is not a superset of any member of R)<br>
+<b>and </b>(Π U/IND({a}) ≤ U/IND({d})<br>
+ a ∈ P
+<b>then</b> add P to R,<br>
+k := k+1<br></dd>
+<b>end</b> {while}<br>
+<b>end</b> {algorithm}.</p><br>
+<img src="WhatsApp%20Image%202024-02-13%20at%203.17.37%20PM.jpeg"><br>
+<dd>As we observed before, the time complexity for the problem of determining all global coverings (in the worst case) is exponential.</dd> However, there are cases when it is
+necessary to compute rules from all global coverings (Grzymala-Busse & GrzymalaBusse, 1994). Hence, the user has an option to fix the value of a LERS parameter, reducing
+in this fashion the size of global coverings (due to this restriction, only global coverings
+of the size not exceeding this number are computed).
+<dd>For example, from Table 1, the rule set computed by All Global Coverings option of LERS is</dd> presented in Figure 6<br><br>
+<h2 style="font-size: 22px;">All Rules</h2>
+<dd style="margin-top: -20px;">Yet another knowledge acquisition option of LERS is called All Rules. It is the oldest
+component of LERS,</dd> introduced at the very beginning in 1988. The name is justified by<br><br>
+<img src="WhatsApp%20Image%202024-02-13%20at%203.21.47%20PM.jpeg"><br>
+<p>the way LERS works when this option is invoked: all rules that can be computed from the
+decision table are computed, all in their simplest form. The algorithm takes each example
+from the decision table and computes all potential rules (in their simplest form) that will
+cover the example and not cover any example from other concepts. Duplicate rules are
+deleted. For Table 1, this option computed the rule et presented in Figure 7</p>
+<h2 style="font-size: 22px;">Classifcation</h2>
+<dd style="margin-top: -20px;">In LERS, the first classification system to classify unseen cases using a rule set computed from training</dd>cases was used in the system, Expert System for Environmental
+Protection (ESEP). This classification system was much improved in 1994 by using a
+modified version of the bucket brigade algorithm (Booker et al., 1990; Holland et al.,
+1986). In this approach, the decision to which concept an example belongs is made using
+three factors: strength, specificity, and support. They are defined as follows: Strength
+factor is a measure of how well the rule has performed during training. Specificity is
+the total number of attribute-value pairs on the left-hand side of the rule. The third factor,
+support, is related to a concept and is defined as the sum of scores of all matching rules
+from the concept. The concept getting the largest support wins the contest
+<dd>In LERS, the strength factor is adjusted to be the strength of a rule, i.e., the total number of examples correctly</dd> classified by the rule during training. The concept C for
+which support, i.e., the following expression<br><br>
+<dd>Σ
+matching rules R describing C
+ Strength factor(R) ∗ Specificity(R)</dd><br>
+<dd>If an example is not completely matched by any rule, some classification systems use partial matching. System AQ15,</dd> during partial matching, uses a probabilistic sum
+of all measures of fit for rules (Michalski et al., 1986).
+<dd>In the original bucket brigade algorithm, partial matching is not considered a viable alternative of complete</dd> matching. Bucket brigade algorithm depends instead on default
+hierarchy (Holland et al., 1986).
+<dd>In LERS, partial matching does not rely on the user’s input. If complete matching is impossible,</dd> all partially matching rules are identified. These are rules with at least one
+attribute-value pair matching the corresponding attribute-value pair of an example
+<dd>For any partially matching rule R, the additional factor, called Matching factor (R), is computed. Matching factor(R)</dd> is defined as the ratio of the number of matched
+attribute-value pairs of a rule R with the case to the total number of attribute-value pairs
+of the rule R. In partial matching, the concept C for which the following expression is the
+largest<br><br>
+<dd>Σ
+partially matching rules R describing C
+ Matching factor(R) ∗ Strength factor(R) ∗ Specificity(R)</dd><br>
+<dd>LERS assigns three numbers to each rule: specificity, strength, and the total number of training cases matching the</dd> left-hand side of the rule. These numbers, used during
+<p>classification, are essential for the LERS generalization of the original rough set theory.
+Note that both rule parameters used in VPRSM, probability and conditional probability,
+may be computed from the three numbers supplied by LERS to each rule. The probability,
+used in VPRSM, is the ratio of the third number (the total number of training cases
+matching the left-hand side of the rule) to the total number of cases in the data set. The
+conditional probability from VPRSM is the ratio of the second number (strength) to the
+third number (the total number of training cases matching the left-hand side of the rule).</p><br>
+<h2 style="text-align: center; font-size: 27px;">APPLICATIONS</h2>
+<dd style="margin-top: -20px;">LERS has been used in the medical field, nursing, global warming, environmental protection,natural language, and data</dd> transmission. LERS may process big datasets and
+frequently outperforms not only other rule induction systems but also human experts<br><br>
+<h2 style="font-size: 22px;">Medical Field</h2>
+<dd style="margin-top: -20px;">In the medical field, LERS was used for prediction of preterm birth, for diagnosis of melanoma, for prediction of</dd> behavior under mental retardation, and for analysis of animal
+models for prediction of self-injurious behavior
+<dd>Predicting which pregnant woman is at risk for giving birth prematurely is a difficult problem in health care. Medical science</dd> and research has not offered viable solutions
+for the prematurity problem. In one of our projects, completed in 1992-93, three large
+prenatal databases were acquired. Each database was divided in two halves—50% for
+training data and 50% for testing data. Each data set was then analyzed using statistical
+and data-mining programs. The best predictive accuracy was accomplished using LERS.
+Manual methods of assessing preterm birth have a positive predictive value of 17-38%.
+The data-mining methods based on LERS reached a positive predictive value of 59-92%
+<dd>Another project was associated with melanoma diagnosis based on the well-known
+ABCD formula. Our main objective was</dd> to check whether the original ABCD formula is
+optimal. As a result of more than 20,000 experiments, the optimal ABCD formula was
+found, reducing thus the error rate from 10.21% (original ABCD formula) to 6.04%
+(optimal ABCD formula).
+<dd>imal ABCD formula).
+In yet another project, data on heart rate were linked to environmental and
+behavioral</dd> data coded from videotapes of one adult subject diagnosed with severe
+mental retardation who engaged in problem behavior. The results of the analysis suggest
+that using the LERS system will be a valuable strategy for exploring large data sets that
+include heart rate, environmental, and behavioral measures.
+<dd>Similarly, LERS was used for prediction of animal models based on their behavioral responsiveness to a</dd> dopamine agonist, GBR12909. The three animal groups received five
+injections of GBR12909 and were observed for stereotyped and self-injurious behaviors
+immediately following the injections and six hours after injections. Differences in the rule
+sets computed for each group enabled the prediction of the stereotyped behaviors that
+may occur prior to occurrence of self-injurious behavior.
+<dd>Also, LERS has been used by the NASA Johnson Space Center as a tool to develop
+an expert system that may be used</dd> in medical decisionmaking on board the International
+Space Station.<br><br>
+<h2 style="font-size: 22px;">Natural Language</h2>
+<dd style="margin-top: -20px;">One of our projects was to derive data associated with the word concept from the Oxford English Dictionary and then</dd> place additional terms in Roget’s Thesaurus. Two
+rule sets were computed from training data, using algorithms LEM2 and All-Rules of
+LERS, respectively. Both rule sets were validated by testing data. The rule set computed
+by the All-Rules algorithm was much better than the rule set computed by LEM2
+algorithm. This conclusion is yet another endorsement of the claim that the knowledge
+acquisition approach is better for rule induction than the machine-learning approach
+<dd>Another project in this area was a data-mining experiment for determining parts of speech from a file containing the last three</dd> characters of words from the entire Roget’s
+Thesaurus. Every entry was classified as belonging to one of five parts of speech: nouns,
+verbs, adjectives, adverbs, and prepositions. The file had 129,797 entries. Only a small
+portion of the file (4.82%) was consistent. LEM2 algorithm of LERS computed 836 certain
+rules and 2,294 possible rules. Since the file was created from the entire Roget’s
+Thesaurus, the same file was used for training and testing. The final error rate was equal
+to 26.71%, with the following partial error rates: 11.75% for nouns, 73.58% for verbs,
+11.99% for adverbs, 33.50% for adjectives, and 85.76% for prepositions.<br><br>
+<h2 style="text-align: center; font-size: 27px;">CONCLUSIONS</h2>
+<dd style="margin-top: -20px;">This chapter presents two approaches to data mining based on rough sets. In both cases generalizations of the original</dd> rough set theory are used. The first one, called
+VPRSM, may be used, for example, to acquire decision tables. The second approach,
+exemplified by LERS, is used for rule generation. Formed rules may be used for
+classification of new, unseen cases or for interpretation of regularities hidden in the input data.
+<dd>When VPRSM is used for the generation of decision tables, global computations
+are involved, i.e., all attributes are</dd> taken into account in operations such as reducing the
+attribute set or analysis of significance of attributes. On the other hand, LERS usually
+uses a local approach. Computations in LERS involve attribute-value pairs rather than
+entire attributes, since the main task is to form rules containing attribute-value pairs.
+<dd>Data mining based on rough set theory or, more exactly, on generalizations of rough set theory, were successfully used</dd> for more than a decade. A number of real-life projects,
+listed in this chapter, confirmed viability of data mining based on rough set theory<br><br>
+<h2 style="text-align: center; font-size: 27px;">REFERENCES</h2>
+<p style="margin-top: -20px;">Beynon, M. (2000). An investigation of beta-reduct selection within variable precision</p>
+<dd style="margin-top: -20px;">rough sets model. 2nd <i>International Conference on Rough Sets and Current
+Trends in Computing,</i> Banff, 2000, LNAI 2005, pp. 82-90. Berlin: Springer-Verlag.</dd><!----->
+<p>Booker, L. B., Goldberg, D. E., & Holland, J. F. (1990). Classifier systems and genetic</p>
+<dd style="margin-top: -20px;">algorithms, In J.G. Carbonell (ed.), <i>Machine Learning. Paradigms and Methods,</i>
+pp. 235-282. Cambridge, MA: MIT Press.</dd><!-------->
+<p>Budihardjo, A., Grzymala-Busse J., & Woolery, L. K. (1991). Program LERS_LB 2.5 as a</p>
+<dd style="margin-top: -20px;">tool for knowledge acquisition in nursing. 4th International Conference on
+<i>Industrial and Engineering Applications of Artificial Intelligence and Expert
+Systems, Koloa, Kauai, Hawaii, pp. 735-740, June 2-5, 1991, The University of</i>
+Tennessee Space Institute Press.</dd><!-------->
+<p>Chan, C. C. & Grzymala-Busse, J. W. (1994). On the two local inductive algorithms: PRISM</p>
+<dd style="margin-top: -20px;">and LEM2. <i>Foundations of Computing and Decision Sciences, 19, 185–203.</i></dd><!----->
+<p>Freeman, R. L., Grzymala-Busse, J. W., Riffel, L. A., & Schroeder, S. R. (2001). Analysis</p>
+<dd style="margin-top: -20px;">of self-injurious behavior by the LERS data mining system. In the Proceedings of
+the Japanese Society for <i>Artificial Intelligence International Workshop on
+Rough Set Theory and Granular Computing, RSTGC-2001, May 20–22, pp. 195-
+200, Matsue, Shimane, Japan, Bulletin Internet, Rough Set Society, 5(1/2).</i></dd><!----->
+<p>Goodwin, L. K. & Grzymala-Busse, J. W. (2001). Preterm birth prediction/System LERS</p>
+<dd style="margin-top: -20px;">In W. Klösgen and J. Zytkow (eds.), <i>Handbook of Data Mining and Knowledge
+Discovery.Oxford,</i> UK: Oxford University Press</dd><!----->
+<p>Greco, S., Matarazzo, B., Slowinski, R., & Stefanowski, J. (2000). Variable consistency</p>
+<dd style="margin-top: -20px;">model of dominance-based rough sets approach. 2nd International Conference on
+<i>Rough Sets, Banff, 2000, LNAI 2005, pp. 138-148. Berlin: Springer-Verlag</i></dd><!----->
+<p>Grzymala-Busse, D. M. & Grzymala-Busse, J. W. (1994). Evaluation of machine learning</p>
+<dd style="margin-top: -20px;">approach to knowledge acquisition. 14th <p>International Avignon Conference,
+Paris, May 30-June 3, pp. 183–192, EC2 Press.</p></dd><!----->
+<p>Grzymala-Busse, J. P., Grzymala-Busse, J. W., & Hippe, Z. S. (2001). Melanoma prediction</p>
+<dd style="margin-top: -20px;">using data mining system LERS. Proceedings of the 25th Anniversary Annual
+International Computer Software and Applications Conference COMPSAC 2001,
+Chicago, IL, October 8–12, pp. 615–620, IEEE Press</dd><!----->
+<p>Grzymala-Busse, J. W. (1987). Rough-set and Dempster-Shafer approaches to knowl</p>
+<dd style="margin-top: -20px;">edge acquisition under uncertainty—A comparison. Manuscript.</dd><!----->
+<p>Greco, S., Matarazzo, B., Slowinski, R., & Stefanowski, J. (2000). Variable consistency</p>
+<dd style="margin-top: -20px;">model of dominance-based rough sets approach. 2nd International Conference on
+<i>Rough Sets, Banff, 2000, LNAI 2005, pp. 138-148. Berlin: Springer-Verlag</i></dd><!----->
+<p>Grzymala-Busse, J. P., Grzymala-Busse, J. W., & Hippe, Z. S. (2001). Melanoma prediction</p>
+<dd style="margin-top: -20px;">using data mining system LERS. Proceedings of the 25th Anniversary Annual
+International Computer Software and Applications Conference COMPSAC 2001,
+Chicago, IL, October 8–12, pp. 615–620, IEEE Press</dd><!----->
+<p>Greco, S., Matarazzo, B., Slowinski, R., & Stefanowski, J. (2000). Variable consistency</p>
+<dd style="margin-top: -20px;">model of dominance-based rough sets approach. 2nd International Conference on
+<i>Rough Sets, Banff, 2000, LNAI 2005, pp. 138-148. Berlin: Springer-Verlag</i></dd><!----->
+<p>Grzymala-Busse, J. P., Grzymala-Busse, J. W., & Hippe, Z. S. (2001). Melanoma prediction</p>
+<dd style="margin-top: -20px;">using data mining system LERS. Proceedings of the 25th Anniversary Annual
+International Computer Software and Applications Conference COMPSAC 2001,
+Chicago, IL, October 8–12, pp. 615–620, IEEE Press</dd><!----->
+<p>Greco, S., Matarazzo, B., Slowinski, R., & Stefanowski, J. (2000). Variable consistency</p>
+<dd style="margin-top: -20px;">model of dominance-based rough sets approach. 2nd International Conference on
+<i>Rough Sets, Banff, 2000, LNAI 2005, pp. 138-148. Berlin: Springer-Verlag</i></dd><!----->
+<p>Greco, S., Matarazzo, B., Slowinski, R., & Stefanowski, J. (2000). Variable consistency</p>
+<dd style="margin-top: -20px;">model of dominance-based rough sets approach. 2nd International Conference on
+<i>Rough Sets, Banff, 2000, LNAI 2005, pp. 138-148. Berlin: Springer-Verlag</i></dd><!----->
+    <p>Grzymala-Busse, J. P., Grzymala-Busse, J. W., & Hippe, Z. S. (2001). Melanoma prediction</p>
+<dd style="margin-top: -20px;">using data mining system LERS. Proceedings of the 25th Anniversary Annual
+International Computer Software and Applications Conference COMPSAC 2001,
+Chicago, IL, October 8–12, pp. 615–620, IEEE Press</dd><!----->
+<p>Greco, S., Matarazzo, B., Slowinski, R., & Stefanowski, J. (2000). Variable consistency</p>
+<dd style="margin-top: -20px;">model of dominance-based rough sets approach. 2nd International Conference on
+<i>Rough Sets, Banff, 2000, LNAI 2005, pp. 138-148. Berlin: Springer-Verlag</i></dd><!----->
+<p>Greco, S., Matarazzo, B., Slowinski, R., & Stefanowski, J. (2000). Variable consistency</p>
+<dd style="margin-top: -20px;">model of <i>dominance-based rough sets approach. 2nd International Conference on</i>
+Rough Sets, Banff, 2000, LNAI 2005, pp. 138-148. Berlin: Springer-Verlag</dd><!----->
+<p>Katzberg, J. & Ziarko, W. (1996). Variable precision extension of rough sets. Fundamenta</p>
+<dd style="margin-top: -20px;"><i>Informaticae, Special Issue on Rough Sets, 27, 155-168.</i>
+</dd><!----->
+
+    </div>
+</body>
+</html>
